@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mini E-commerce</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center p-6">
+
+    <h1 class="text-3xl font-bold mb-6">Add Product</h1>
+
+    <div class="flex gap-3 mb-4">
+        <input id="name" placeholder="Product name" class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+        <input id="price" type="number" placeholder="Price" class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+         <input id="description" placeholder="description" class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+        <input id="image" placeholder="Image URL" class="border border-gray-300 rounded px-3 py-2 w-full"/>
+
+
+        <button onclick="addProduct()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add</button>
+    </div>
+
+    <h2 class="text-2xl font-semibold mb-3">Products</h2>
+    <ul id="productList" class="w-full max-w-md bg-white shadow rounded p-4 space-y-2"></ul>
+
+    <script>
+        const API_URL = "http://127.0.0.1:8000/products";
+
+        async function addProduct() {
+            const name = document.getElementById("name").value;
+            const price = document.getElementById("price").value;
+            const description = document.getElementById("description").value;
+
+
+
+            if(!name || !price){
+                alert("Please enter both name and price.");
+                return;
+            }
+
+            await fetch(API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name: name, price: parseFloat(price),description:description ,image: image,in_stock: true })
+            });
+
+            loadProducts();
+            document.getElementById("name").value = "";
+            document.getElementById("price").value = "";
+            document.getElementById("description").value = "";
+            document.getElementById("image").value = "";
+
+
+        }
+
+        async function loadProducts() {
+            products.forEach(p => {
+    const li = document.createElement("li");
+    li.className = "flex gap-4 items-center border-b py-3";
+
+    li.innerHTML = `
+        <img src="${p.image_url || 'https://via.placeholder.com/80'}"
+             class="w-20 h-20 object-cover rounded" />
+
+        <div class="flex-1">
+            <p class="font-semibold">${p.name}</p>
+            <p class="text-gray-600">$${p.price}</p>
+        </div>
+    `;
+
+    list.appendChild(li);
+});
+
+        }
+
+        loadProducts();
+    </script>
+
+</body>
+</html>
