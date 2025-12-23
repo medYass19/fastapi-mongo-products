@@ -56,8 +56,8 @@ fastapi-mongo-ecommerce/
 
 ## ⚙️ Setup & Installation
 
-###  Clone the repository
 ```bash
+## Clone the repository
 git clone https://github.com/medYass19/fastapi-mongo-products.git   
 cd fastapi-mongo-ecommerce
 ---
@@ -74,4 +74,5 @@ http://127.0.0.1:8000
  Run the frontend
 cd frontend
 python3 -m http.server 5500
+
 
